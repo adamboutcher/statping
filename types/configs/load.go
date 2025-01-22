@@ -2,38 +2,46 @@ package configs
 
 import (
 	"errors"
+	"os"
+
 	"github.com/statping-ng/statping-ng/utils"
 	"gopkg.in/yaml.v2"
-	"os"
 )
 
 func Save() error {
 	p := utils.Params
 	configs := &DbConfig{
-		DbConn:             p.GetString("DB_CONN"),
-		DbHost:             p.GetString("DB_HOST"),
-		DbUser:             p.GetString("DB_USER"),
-		DbPass:             p.GetString("DB_PASS"),
-		DbData:             p.GetString("DB_DATABASE"),
-		DbPort:             p.GetInt("DB_PORT"),
-		Project:            p.GetString("NAME"),
-		Description:        p.GetString("DESCRIPTION"),
-		Domain:             p.GetString("DOMAIN"),
-		Email:              p.GetString("EMAIL"),
-		Username:           p.GetString("ADMIN_USER"),
-		Password:           p.GetString("ADMIN_PASSWORD"),
-		Location:           utils.Directory,
-		SqlFile:            p.GetString("SQL_FILE"),
-		Language:           p.GetString("LANGUAGE"),
-		AllowReports:       p.GetBool("ALLOW_REPORTS"),
-		LetsEncryptEnable:  p.GetBool("LETSENCRYPT_ENABLE"),
-		LetsEncryptHost:    p.GetString("LETSENCRYPT_HOST"),
-		LetsEncryptEmail:   p.GetString("LETSENCRYPT_EMAIL"),
-		ApiSecret:          p.GetString("API_SECRET"),
-		SampleData:         p.GetBool("SAMPLE_DATA"),
-		MaxOpenConnections: p.GetInt("MAX_OPEN_CONN"),
-		MaxIdleConnections: p.GetInt("MAX_IDLE_CONN"),
-		MaxLifeConnections: int(p.GetDuration("MAX_LIFE_CONN").Seconds()),
+		DbConn:               p.GetString("DB_CONN"),
+		DbHost:               p.GetString("DB_HOST"),
+		DbUser:               p.GetString("DB_USER"),
+		DbPass:               p.GetString("DB_PASS"),
+		DbData:               p.GetString("DB_DATABASE"),
+		DbPort:               p.GetInt("DB_PORT"),
+		Project:              p.GetString("NAME"),
+		Description:          p.GetString("DESCRIPTION"),
+		Domain:               p.GetString("DOMAIN"),
+		Email:                p.GetString("EMAIL"),
+		Username:             p.GetString("ADMIN_USER"),
+		Password:             p.GetString("ADMIN_PASSWORD"),
+		Location:             utils.Directory,
+		SqlFile:              p.GetString("SQL_FILE"),
+		Language:             p.GetString("LANGUAGE"),
+		AllowReports:         p.GetBool("ALLOW_REPORTS"),
+		LetsEncryptEnable:    p.GetBool("LETSENCRYPT_ENABLE"),
+		LetsEncryptHost:      p.GetString("LETSENCRYPT_HOST"),
+		LetsEncryptEmail:     p.GetString("LETSENCRYPT_EMAIL"),
+		ApiSecret:            p.GetString("API_SECRET"),
+		SampleData:           p.GetBool("SAMPLE_DATA"),
+		MaxOpenConnections:   p.GetInt("MAX_OPEN_CONN"),
+		MaxIdleConnections:   p.GetInt("MAX_IDLE_CONN"),
+		MaxLifeConnections:   int(p.GetDuration("MAX_LIFE_CONN").Seconds()),
+		KeycloakClientID:     p.GetString("KEYCLOAK_CLIENT_ID"),
+		KeycloakClientSecret: p.GetString("KEYCLOAK_CLIENT_SECRET"),
+		KeycloakAuthURL:      p.GetString("KEYCLOAK_AUTH_URL"),
+		KeycloakTokenURL:     p.GetString("KEYCLOAK_TOKEN_URL"),
+		KeycloakUserInfoURL:  p.GetString("KEYCLOAK_USER_INFO_URL"),
+		KeycloakScopes:       p.GetString("KEYCLOAK_SCOPES"),
+		KeycloakAdminGroups:  p.GetString("KEYCLOAK_ADMIN_GROUPS"),
 	}
 	return configs.Save(utils.Directory)
 }
@@ -102,29 +110,57 @@ func LoadConfigs(cfgFile string) (*DbConfig, error) {
 	if db.LetsEncryptEnable {
 		p.Set("LETSENCRYPT_ENABLE", db.LetsEncryptEnable)
 	}
+	if db.KeycloakClientID != "" {
+		p.Set("KEYCLOAK_CLIENT_ID", db.KeycloakClientID)
+	}
+	if db.KeycloakClientSecret != "" {
+		p.Set("KEYCLOAK_CLIENT_SECRET", db.KeycloakClientSecret)
+	}
+	if db.KeycloakAuthURL != "" {
+		p.Set("KEYCLOAK_AUTH_URL", db.KeycloakAuthURL)
+	}
+	if db.KeycloakTokenURL != "" {
+		p.Set("KEYCLOAK_TOKEN_URL", db.KeycloakTokenURL)
+	}
+	if db.KeycloakUserInfoURL != "" {
+		p.Set("KEYCLOAK_USER_INFO_URL", db.KeycloakUserInfoURL)
+	}
+	if db.KeycloakScopes != "" {
+		p.Set("KEYCLOAK_SCOPES", db.KeycloakScopes)
+	}
+	if db.KeycloakAdminGroups != "" {
+		p.Set("KEYCLOAK_ADMIN_GROUPS", db.KeycloakAdminGroups)
+	}
 
 	configs := &DbConfig{
-		DbConn:            p.GetString("DB_CONN"),
-		DbHost:            p.GetString("DB_HOST"),
-		DbUser:            p.GetString("DB_USER"),
-		DbPass:            p.GetString("DB_PASS"),
-		DbData:            p.GetString("DB_DATABASE"),
-		DbPort:            p.GetInt("DB_PORT"),
-		Project:           p.GetString("NAME"),
-		Description:       p.GetString("DESCRIPTION"),
-		Domain:            p.GetString("DOMAIN"),
-		Email:             p.GetString("EMAIL"),
-		Username:          p.GetString("ADMIN_USER"),
-		Password:          p.GetString("ADMIN_PASSWORD"),
-		Location:          utils.Directory,
-		SqlFile:           p.GetString("SQL_FILE"),
-		Language:          p.GetString("LANGUAGE"),
-		AllowReports:      p.GetBool("ALLOW_REPORTS"),
-		LetsEncryptEnable: p.GetBool("LETSENCRYPT_ENABLE"),
-		LetsEncryptHost:   p.GetString("LETSENCRYPT_HOST"),
-		LetsEncryptEmail:  p.GetString("LETSENCRYPT_EMAIL"),
-		ApiSecret:         p.GetString("API_SECRET"),
-		SampleData:        p.GetBool("SAMPLE_DATA"),
+		DbConn:               p.GetString("DB_CONN"),
+		DbHost:               p.GetString("DB_HOST"),
+		DbUser:               p.GetString("DB_USER"),
+		DbPass:               p.GetString("DB_PASS"),
+		DbData:               p.GetString("DB_DATABASE"),
+		DbPort:               p.GetInt("DB_PORT"),
+		Project:              p.GetString("NAME"),
+		Description:          p.GetString("DESCRIPTION"),
+		Domain:               p.GetString("DOMAIN"),
+		Email:                p.GetString("EMAIL"),
+		Username:             p.GetString("ADMIN_USER"),
+		Password:             p.GetString("ADMIN_PASSWORD"),
+		Location:             utils.Directory,
+		SqlFile:              p.GetString("SQL_FILE"),
+		Language:             p.GetString("LANGUAGE"),
+		AllowReports:         p.GetBool("ALLOW_REPORTS"),
+		LetsEncryptEnable:    p.GetBool("LETSENCRYPT_ENABLE"),
+		LetsEncryptHost:      p.GetString("LETSENCRYPT_HOST"),
+		LetsEncryptEmail:     p.GetString("LETSENCRYPT_EMAIL"),
+		ApiSecret:            p.GetString("API_SECRET"),
+		SampleData:           p.GetBool("SAMPLE_DATA"),
+		KeycloakClientID:     p.GetString("KEYCLOAK_CLIENT_ID"),
+		KeycloakClientSecret: p.GetString("KEYCLOAK_CLIENT_SECRET"),
+		KeycloakAuthURL:      p.GetString("KEYCLOAK_AUTH_URL"),
+		KeycloakTokenURL:     p.GetString("KEYCLOAK_TOKEN_URL"),
+		KeycloakUserInfoURL:  p.GetString("KEYCLOAK_USER_INFO_URL"),
+		KeycloakScopes:       p.GetString("KEYCLOAK_SCOPES"),
+		KeycloakAdminGroups:  p.GetString("KEYCLOAK_ADMIN_GROUPS"),
 	}
 	log.WithFields(utils.ToFields(configs)).Debugln("read config file: " + cfgFile)
 

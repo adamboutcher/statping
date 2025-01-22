@@ -2,6 +2,8 @@ package configs
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"github.com/statping-ng/statping-ng/database"
@@ -17,7 +19,6 @@ import (
 	"github.com/statping-ng/statping-ng/types/services"
 	"github.com/statping-ng/statping-ng/types/users"
 	"github.com/statping-ng/statping-ng/utils"
-	"time"
 )
 
 // initModels sets the database for each Statping type packages
@@ -96,7 +97,7 @@ func CreateAdminUser() error {
 		Password: adminPass,
 		Email:    adminEmail,
 		Scopes:   "admin",
-		Admin:    null.NewNullBool(true),
+		Admin:    null.NewNullBool(false),
 	}
 
 	if err := admin.Create(); err != nil {

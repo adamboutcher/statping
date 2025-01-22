@@ -30,7 +30,7 @@ export default new Vuex.Store({
     notifiers: [],
     checkins: [],
     admin: false,
-    user: false,
+    user: null,
     loggedIn: false,
     modal: {
       visible: false,
@@ -163,19 +163,20 @@ export default new Vuex.Store({
       const token = await Api.token()
       context.commit("setCore", core);
       context.commit('setAdmin', token)
-      context.commit('setCore', core)
       context.commit('setUser', token !== undefined)
     },
     async loadRequired(context) {
-      const groups = await Api.groups()
+      const [groups, services, messages, oauth] = await Promise.all([
+        Api.groups(),
+        Api.services(),
+        Api.messages(),
+        Api.oauth(),
+      ])
       context.commit("setGroups", groups);
-      const services = await Api.services()
       context.commit("setServices", services);
-      const messages = await Api.messages()
-      context.commit("setMessages", messages)
-      const oauth = await Api.oauth()
+      context.commit("setMessages", messages);
       context.commit("setOAuth", oauth);
-      context.commit("setHasPublicData", true)
+      context.commit("setHasPublicData", true);
     },
     async loadAdmin(context) {
       const groups = await Api.groups()
