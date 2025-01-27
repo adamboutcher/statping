@@ -32,18 +32,21 @@ func keycloakOAuth(r *http.Request) (*oAuth, error) {
 
 	token, err := config.Exchange(r.Context(), code)
 	if err != nil {
+		log.Errorln("Error exchanging token:", err)
 		return nil, err
 	}
 
 	client := config.Client(r.Context(), token)
 	userInfoResp, err := client.Get(auth.KeycloakUserInfoURL)
 	if err != nil {
+		log.Errorln("Error getting user info:", err)
 		return nil, err
 	}
 	defer userInfoResp.Body.Close()
 
 	var user keycloakUserInfo
 	if err := json.NewDecoder(userInfoResp.Body).Decode(&user); err != nil {
+		log.Errorln("Error decoding user info:", err)
 		return nil, err
 	}
 
