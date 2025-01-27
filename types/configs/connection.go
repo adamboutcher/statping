@@ -97,7 +97,7 @@ func CreateAdminUser() error {
 		Password: adminPass,
 		Email:    adminEmail,
 		Scopes:   "admin",
-		Admin:    null.NewNullBool(false),
+		Admin:    null.NewNullBool(true),
 	}
 
 	if err := admin.Create(); err != nil {

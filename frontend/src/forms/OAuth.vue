@@ -160,7 +160,14 @@
         </div>
 
         <div class="card mb-3">
-            <!-- Keycloak OAuth settings -->
+            <div class="card-header">
+                <font-awesome-icon @click="expanded.keycloak = !expanded.keycloak" :icon="expanded.keycloak ? 'minus' : 'plus'" class="mr-2 pointer"/>
+                Keycloak Settings
+                <span @click="keycloak_enabled = !!keycloak_enabled" class="switch switch-sm switch-rd-gr float-right">
+                    <input v-model="keycloak_enabled" type="checkbox" id="switch-keycloak-oauth" :checked="keycloak_enabled">
+                    <label for="switch-keycloak-oauth" class="mb-0"> </label>
+                </span>
+            </div>
             <div class="form-group row">
                 <label for="keycloak_client_id" class="col-sm-4 col-form-label">Keycloak Client ID</label>
                 <div class="col-sm-8">
@@ -204,18 +211,30 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="keycloak_openid" class="col-sm-4 col-form-label">Use OpenID</label>
+                <label for="keycloak_open_id" class="col-sm-4 col-form-label">Use OpenID</label>
                 <div class="col-sm-8">
-                    <input v-model="oauth.keycloak_openid" type="checkbox" class="form-check-input" id="keycloak_openid">
+                    <input v-model="oauth.keycloak_open_id" type="checkbox" class="form-check-input" id="keycloak_open_id">
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="keycloak_callback_url" class="col-sm-4 col-form-label">Callback URL</label>
+              <div class="form-group row">
+                <label for="switch-keycloak-open-id" class="col-sm-4 col-form-label">Open ID</label>
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        <input v-bind:value="`${core.domain}/oauth/keycloak`" type="text" class="form-control" id="keycloak_callback_url" readonly>
-                        <div class="input-group-append copy-btn">
-                            <button @click.prevent="copy(`${core.domain}/oauth/keycloak`)" class="btn btn-outline-secondary" type="button">Copy</button>
+                  <span @click="oauth.keycloak_openid = !!oauth.keycloak_open_id" class="switch switch-rd-gr float-right">
+                    <input v-model="oauth.keycloak_open_id" type="checkbox" id="switch-keycloak-open-id" :checked="oauth.keycloak_open_id">
+                    <label for="switch-keycloak-open-id" class="mb-0"> </label>
+                </span>
+                  <small>Enable if provider is OpenID</small>
+                </div>
+              </div>
+
+                <div class="form-group row">
+                    <label for="slack_callback" class="col-sm-4 col-form-label">Callback URL</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input v-bind:value="`${core.domain}/oauth/keycloak`" type="text" class="form-control" id="keycloak_callback" readonly>
+                            <div class="input-group-append copy-btn">
+                                <button @click.prevent="copy(`${core.domain}/oauth/keycloak`)" class="btn btn-outline-secondary" type="button">Copy</button>
+
                         </div>
                     </div>
                 </div>
@@ -348,14 +367,14 @@
               custom_endpoint_token: "",
               custom_scopes: "",
               custom_open_id: false,
-              keycloak_client_id: "",
+              keycloak_client: "",
               keycloak_client_secret: "",
               keycloak_auth_url: "",
               keycloak_token_url: "",
               keycloak_user_info_url: "",
               keycloak_scopes: '',
               keycloak_admin_groups: '',
-              keycloak_openid: false,
+              keycloak_open_id: false,
             }
           }
       },

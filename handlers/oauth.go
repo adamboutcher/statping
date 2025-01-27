@@ -69,11 +69,6 @@ func oauthLogin(oauth *oAuth, w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Check if the user has admin scope
-	if scope, ok := oauth.Token.Extra("scope").(string); ok && strings.Contains(scope, "admin") {
-		user.Admin = null.NewNullBool(true)
-	}
-
 	log.Infoln(fmt.Sprintf("OAuth %s User %s logged in from IP %s", oauth.Type(), oauth.Email, r.RemoteAddr))
 	setJwtToken(user, w)
 

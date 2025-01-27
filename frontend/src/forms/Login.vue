@@ -115,7 +115,7 @@
       },
       keycloak_scopes() {
         let scopes = []
-        if (this.oauth.keycloak_is_open_id) {
+        if (this.oauth.keycloak_open_id) {
           scopes.push("openid")
         }
         scopes.push(this.oauth.keycloak_scopes.split(","))

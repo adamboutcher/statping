@@ -30,7 +30,7 @@ export default new Vuex.Store({
     notifiers: [],
     checkins: [],
     admin: false,
-    user: null,
+    user: false,
     loggedIn: false,
     modal: {
       visible: false,
