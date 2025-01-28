@@ -162,21 +162,20 @@ export default new Vuex.Store({
       const core = await Api.core()
       const token = await Api.token()
       context.commit("setCore", core);
-      context.commit('setAdmin', token)
+      context.commit('setAdmin', token);
+      context.commit('setCore', core);
       context.commit('setUser', token !== undefined)
     },
     async loadRequired(context) {
-      const [groups, services, messages, oauth] = await Promise.all([
-        Api.groups(),
-        Api.services(),
-        Api.messages(),
-        Api.oauth(),
-      ])
+      const groups = await Api.groups()
       context.commit("setGroups", groups);
+      const services = await Api.services()
       context.commit("setServices", services);
-      context.commit("setMessages", messages);
+      const messages = await Api.messages()
+      context.commit("setMessages", messages)
+      const oauth = await Api.oauth()
       context.commit("setOAuth", oauth);
-      context.commit("setHasPublicData", true);
+      context.commit("setHasPublicData", true)
     },
     async loadAdmin(context) {
       const groups = await Api.groups()

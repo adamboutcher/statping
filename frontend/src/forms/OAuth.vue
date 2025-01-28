@@ -201,13 +201,15 @@
             <div class="form-group row">
                 <label for="keycloak_scopes" class="col-sm-4 col-form-label">Scopes</label>
                 <div class="col-sm-8">
-                    <input v-model="oauth.keycloak_scopes" type="text" class="form-control" id="keycloak_scopes" placeholder="e.g. openid profile email">
+                    <input v-model="oauth.keycloak_scopes" type="text" class="form-control" id="keycloak_scopes" placeholder="e.g. openid,profile,email">
+                    <small>Optional comma delimited list of keycloak scopes</small>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="keycloak_admin_groups" class="col-sm-4 col-form-label">Admin Groups</label>
                 <div class="col-sm-8">
                     <input v-model="oauth.keycloak_admin_groups" type="text" class="form-control" id="keycloak_admin_groups" placeholder="e.g. group1,group2,group3,group4">
+                    <small>Optional comma delimited list of keycloak admin groups</small>
                 </div>
             </div>
             <div class="form-group row">
@@ -216,25 +218,24 @@
                     <input v-model="oauth.keycloak_open_id" type="checkbox" class="form-check-input" id="keycloak_open_id">
                 </div>
             </div>
-              <div class="form-group row">
+            <div class="form-group row">
                 <label for="switch-keycloak-open-id" class="col-sm-4 col-form-label">Open ID</label>
                 <div class="col-sm-8">
-                  <span @click="oauth.keycloak_openid = !!oauth.keycloak_open_id" class="switch switch-rd-gr float-right">
+                    <span @click="oauth.keycloak_openid = !!oauth.keycloak_open_id" class="switch switch-rd-gr float-right">
                     <input v-model="oauth.keycloak_open_id" type="checkbox" id="switch-keycloak-open-id" :checked="oauth.keycloak_open_id">
                     <label for="switch-keycloak-open-id" class="mb-0"> </label>
                 </span>
-                  <small>Enable if provider is OpenID</small>
+                    <small>Enable if provider is OpenID</small>
                 </div>
-              </div>
+            </div>
 
-                <div class="form-group row">
-                    <label for="slack_callback" class="col-sm-4 col-form-label">Callback URL</label>
-                    <div class="col-sm-8">
-                        <div class="input-group">
-                            <input v-bind:value="`${core.domain}/oauth/keycloak`" type="text" class="form-control" id="keycloak_callback" readonly>
-                            <div class="input-group-append copy-btn">
-                                <button @click.prevent="copy(`${core.domain}/oauth/keycloak`)" class="btn btn-outline-secondary" type="button">Copy</button>
-
+            <div class="form-group row">
+                <label for="slack_callback" class="col-sm-4 col-form-label">Callback URL</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input v-bind:value="`${core.domain}/oauth/keycloak`" type="text" class="form-control" id="keycloak_callback" readonly>
+                        <div class="input-group-append copy-btn">
+                            <button @click.prevent="copy(`${core.domain}/oauth/keycloak`)" class="btn btn-outline-secondary" type="button">Copy</button>
                         </div>
                     </div>
                 </div>
