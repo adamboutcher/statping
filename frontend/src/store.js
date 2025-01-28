@@ -162,8 +162,8 @@ export default new Vuex.Store({
       const core = await Api.core()
       const token = await Api.token()
       context.commit("setCore", core);
-      context.commit('setAdmin', token)
-      context.commit('setCore', core)
+      context.commit('setAdmin', token);
+      context.commit('setCore', core);
       context.commit('setUser', token !== undefined)
     },
     async loadRequired(context) {
